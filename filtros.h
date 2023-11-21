@@ -12,13 +12,24 @@ typedef struct PGMImage{
     int filtro_aplicar;
 }PGMImage;
 
-void aplicar_convolucion(struct PGMImage* image);
+struct BloqueImagen{
+    PGMImage* image;
+    byte* result;
+    int width;
+    int height;
+    int begin;
+    int end;
+};
 
-void aplicar_filtro(struct PGMImage* image, byte* resultado, double conv[9]);
+void aplicar_convolucion(struct BloqueImagen* bloque);
 
-void aplicar_sobel (struct PGMImage* image, byte* resultado);
-void aplicar_blur (struct PGMImage* image, byte* resultado);
-void aplicar_sharpen (struct PGMImage* image, byte* resultado);
-void aplicar_identity (struct PGMImage* image, byte* resultado);
+void aplicar_filtro(struct BloqueImagen* bloque, double conv[9]);
+
+void aplicar_sobel (struct BloqueImagen* bloque);
+void aplicar_blur (struct BloqueImagen* bloque);
+void aplicar_sharpen (struct BloqueImagen* bloque);
+void aplicar_identity (struct BloqueImagen* bloque);
+
+void aplicar_convolucion3x3_bloque(struct BloqueImagen* bloque, double conv[9], double denom);
 
 #endif
