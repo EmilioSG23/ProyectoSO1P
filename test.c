@@ -55,7 +55,8 @@ int main (){
     core_numbers = sysconf(_SC_NPROCESSORS_ONLN);
     PGMImage* imagen = leer_imagen("images/tank.pgm");
     imagen -> filtro_aplicar = 1;
-    imagen -> filename = "tank.pgm";
+    imagen -> input = "tank.pgm";
+    imagen -> output = "results/test.pgm";
 
     struct timespec time_start, time_end;
     clock_gettime(CLOCK_REALTIME,&time_start);
@@ -75,8 +76,7 @@ int main (){
     fprintf(stderr,"Tiempo de ejecución de convolución: %lf ms\n",time_executed);
 
     /* Escritura de bloque */
-    char new_filename[128]="results/";strcat(new_filename,imagen->filename);
-    WritePGM(new_filename,resultado,imagen->width,imagen->height);
+    WritePGM(imagen->output,resultado,imagen->width,imagen->height);
 
     /* Liberación de recursos */
     for (int i = 0; i < core_numbers; i++)

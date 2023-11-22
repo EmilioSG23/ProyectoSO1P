@@ -5,7 +5,8 @@
 
 /* Estructura que representa una PGMImage */
 typedef struct PGMImage{
-    char* filename;
+    char* input;
+    char* output;
     byte* image;
     int width;
     int height;
@@ -20,6 +21,8 @@ struct BloqueImagen{
     int begin;
     int end;
 };
+
+int verificar_filtro(char* filtro);
 
 void aplicar_convolucion(struct BloqueImagen* bloque);
 

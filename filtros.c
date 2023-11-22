@@ -1,8 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "pgm.h"
 #include "filtros.h"
+
+int verificar_filtro(char* filtro){
+    char* filtros[4] = {"sobel","blur","sharpen","identity"};
+    for(int i = 0; i < 4; i++){
+        if((strcmp(filtro,filtros[i])==0)||atoi(filtro)==i+1)
+            return i+1;
+    }
+    return -1;
+}
 
 void aplicar_convolucion(struct BloqueImagen* bloque){
     bloque -> result = malloc(bloque->width * bloque->height);

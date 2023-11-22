@@ -16,7 +16,6 @@
 
 #define SIZE 128 //Tamaño de buffer del scanf para path_file
 int core_numbers;
-PGMImage* pgm_image;
 
 /* Obtener filename de un path */
 char* obtenerFilename(char* path_file){
@@ -27,6 +26,31 @@ char* obtenerFilename(char* path_file){
         token = strtok(NULL, "/");
     }
     return filename;
+}
+/* Verifica si el nombre del archivo empieza con una extension, sino lo añade */
+char* parseExtension(char* filename, char* extension){
+    int len_file = strlen(filename);
+    int len_ext = strlen(extension);
+     
+    int endsWith = 0;
+    if (len_ext <= len_file) {
+        for (int i = 0; i < len_ext; i++) {
+            if (filename[i + len_file - len_ext] != extension[i]) {
+                endsWith = 0;
+                break;
+            }
+            endsWith = 1;
+        }
+    }
+    if(endsWith == 0)
+        filename=strcat(filename,extension);
+
+    return filename;
+}
+
+/* Verifica si el nombre del archivo termina con .pgm, sino lo añade */
+char* parsePGMExtension (char* filename){
+    return parseExtension(filename, ".pgm");
 }
 
 /* Lectura del archivo de imagen, se extrae datos a estructura PGMImage */
@@ -109,8 +133,7 @@ int procesar_imagen(PGMImage* image){
         fprintf(stderr,"Tiempo de ejecución de convolución: %lf ms\n",time_executed);
 
         /* Escritura de bloque */
-        char new_filename[SIZE]="results/";strcat(new_filename,image->filename);
-        WritePGM(new_filename,resultado,image->width,image->height);
+        WritePGM(image->output,resultado,image->width,image->height);
 
         /* Liberación de recursos */
         for (int i = 0; i < core_numbers; i++) {
@@ -119,37 +142,64 @@ int procesar_imagen(PGMImage* image){
         free(image->image);
         free(bloques);
         free(resultado);
+        free(image);
+        
+        exit(0);
 
         return 0;
     }else{/* Proceso padre */
-        waitpid(pid,NULL,0);
+        //waitpid(pid,NULL,0);
+        free(image);
         return 1;
     }
 }
 
 int main(int argc,char **argv){
+    if(argc <=1 || argc >= 5){
+        fprintf(stderr,"Uso de convolucion:\n");
+        fprintf(stderr, "Ingresando solo nombre y dirección de imagen a procesar: \n");
+        fprintf(stderr, "\t%s <dirección y/o nombre de imagen a procesar> <filtro>\n",argv[0]);
+        fprintf(stderr, "Ingresando nombre y dirección de imagen a procesar y archivo resultante: \n");
+        fprintf(stderr, "\t%s <dirección y/o nombre de imagen a procesar> <dirección y/o nombre del archivo resultante>  <filtro>\n",argv[0]);
+        return 0;
+    }
+
+    char arguments[argc][64];
+    for (int i = 1; i < argc; i++){
+        strcpy(arguments[i-1],argv[i]);
+    }
+
+    char path_entrada[64];strcpy(path_entrada, arguments[0]);
+    char* entrada = parsePGMExtension(obtenerFilename(path_entrada));
+    char new_filename[SIZE]="results/";strcat(new_filename,entrada);
+    char * salida = parsePGMExtension(new_filename);
+    int filtro = 2; //Aplica blur por defecto (1-> sobel, 2-> blur, 3-> sharpen, 4-> identity)
+    
+    if(argc == 3){
+        int temp = verificar_filtro(arguments[1]);
+        /* Verifica si se ingresó un filtro o nombre de archivo de salida */
+        if(temp != -1){
+            filtro = temp;
+        }else{
+            salida = parsePGMExtension(arguments[1]);
+        }
+    }else if(argc ==4){
+        salida = parsePGMExtension(arguments[1]);
+        int temp = verificar_filtro(arguments[2]);
+        /* Verifica si el fitro ingresado existe y lo usa*/
+        if(temp != -1)
+            filtro = temp;
+    }
+
     /* Cantidad de núcleos que presenta un computador */
-    if((core_numbers = sysconf(_SC_NPROCESSORS_ONLN))<1)
+    if((core_numbers = sysconf(_SC_NPROCESSORS_ONLN) -1)<1)
         core_numbers=1;
 
-    int while_status = 1;
-    while(while_status == 1){
-        int filtro = 0;
-        char* path_file = malloc(SIZE);
-        /* Ingreso de ruta del archivo */
-        fprintf(stderr,"Ingrese ruta o nombre del archivo: ");
-        scanf("%s",path_file);
-        if(strcmp(path_file,"exit")==0){while_status=0;fprintf(stderr,"Saliendo...\n");return 0;}
-        while(filtro>4 || filtro < 1){
-            fprintf(stderr,"Ingrese filtro a aplicar (1-> sobel, 2-> blur, 3-> sharpen, 4-> identity): ");
-            scanf("%d",&filtro);
-        }
-        pgm_image = leer_imagen(path_file);
-        if(pgm_image != NULL){
-            pgm_image->filtro_aplicar = filtro;
-            pgm_image->filename = obtenerFilename(path_file);
-            while_status = procesar_imagen(pgm_image);
-            free(pgm_image);
-        }
+    PGMImage* pgm_image = leer_imagen(parsePGMExtension(arguments[0]));
+    if(pgm_image != NULL){
+        pgm_image->filtro_aplicar = filtro;
+        pgm_image->input = entrada;
+        pgm_image->output = salida;
+        procesar_imagen(pgm_image);
     }
 }
