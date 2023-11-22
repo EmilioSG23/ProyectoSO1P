@@ -3,7 +3,6 @@
 #include <unistd.h>
 #include <string.h>
 #include <time.h>
-#include <linux/time.h>
 
 #include "filtros.h"
 #include "pgm.h"
