@@ -10,6 +10,7 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include <sys/resource.h>
+#include <linux/time.h>
 
 #include "pgm.h"
 #include "filtros.h"

@@ -2,9 +2,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
-#include <linux/time.h>
-
 #include <time.h>
+#include <linux/time.h>
 
 #include "filtros.h"
 #include "pgm.h"
