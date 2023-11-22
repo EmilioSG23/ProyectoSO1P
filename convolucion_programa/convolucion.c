@@ -149,6 +149,7 @@ int procesar_imagen(PGMImage* image){
         return 0;
     }else{/* Proceso padre */
         //waitpid(pid,NULL,0);
+        free(image->image);
         free(image);
         return 1;
     }
@@ -156,11 +157,17 @@ int procesar_imagen(PGMImage* image){
 
 int main(int argc,char **argv){
     if(argc <=1 || argc >= 5){
-        fprintf(stderr,"Uso de convolucion:\n");
-        fprintf(stderr, "Ingresando solo nombre y dirección de imagen a procesar: \n");
-        fprintf(stderr, "\t%s <dirección y/o nombre de imagen a procesar> <filtro>\n",argv[0]);
-        fprintf(stderr, "Ingresando nombre y dirección de imagen a procesar y archivo resultante: \n");
-        fprintf(stderr, "\t%s <dirección y/o nombre de imagen a procesar> <dirección y/o nombre del archivo resultante>  <filtro>\n",argv[0]);
+        fprintf(stderr,"\e[1m\x1b[31m================================ Uso de convolucion ================================\x1b[0m\e[m\n");
+        fprintf(stderr, "\e[1mIngresando solo nombre y dirección de imagen a procesar: \e[m\n");
+        fprintf(stderr, "\t%s <dirección/nombre_imagen> \n\n",argv[0]);
+        fprintf(stderr, "\e[1mIngresando el nombre y dirección de imagen a procesar junto al filtro que quiere utilizar: \e[m\n");
+        fprintf(stderr, "\t%s <dirección/nombre_imagen> <filtro>\n\n",argv[0]);
+        fprintf(stderr, "\e[1mIngresando nombre y dirección de imagen a procesar y archivo resultante: \e[m\n");
+        fprintf(stderr, "\t%s <dirección/nombre_imagen> <dirección/nombre_resultado>\n\n",argv[0]);
+        fprintf(stderr, "\e[1mIngresando nombre y dirección de imagen a procesar y archivo resultante junto al filtro que quiere utilizar: \e[m\n");
+        fprintf(stderr, "\t%s <dirección/nombre_imagen> <dirección/nombre_resultado>  <filtro>\n\n",argv[0]);
+        fprintf(stderr, "\e[1mFiltros disponibles que puede ingresar mediante texto o mediante su respectivo número:\e[m\n");
+        fprintf(stderr, "1 -> sobel, 2 -> blur, 3 -> sharpen, 4 -> identity\n");
         return 0;
     }
 
@@ -189,6 +196,10 @@ int main(int argc,char **argv){
         /* Verifica si el fitro ingresado existe y lo usa*/
         if(temp != -1)
             filtro = temp;
+        else{
+            fprintf(stderr,"Filtro ingresado no válido\n");
+            return 0;
+        }
     }
 
     /* Cantidad de núcleos que presenta un computador */
