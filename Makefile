@@ -13,3 +13,4 @@ test: test.o pgm.o filtros.o $(DEPS)
 .PHONY: clean
 clean:
 	rm -f $(NAME) *.o
+	rm -f test *.o
