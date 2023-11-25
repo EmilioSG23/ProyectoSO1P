@@ -19,7 +19,7 @@ int core_numbers;
 
 /* Obtener filename de un path */
 char* obtenerFilename(char* path_file){
-    char* copy = malloc(SIZE * sizeof(char*));
+    char copy[SIZE];
     strcpy(copy,path_file);
     char* filename;
     char* token = strtok(copy,"/");
@@ -27,7 +27,6 @@ char* obtenerFilename(char* path_file){
         filename=token;
         token = strtok(NULL, "/");
     }
-    free(copy);
     return filename;
 }
 /* Obtener argumentos */
@@ -110,7 +109,7 @@ int procesar_imagen(PGMImage* image){
         for (int i = 0; i < core_numbers; i++) {
             free(bloques[i].result);
         }
-        free(image->image);free(image->input);free(image->output);free(bloques);free(resultado);free(image);
+        free(image->image);free(resultado);free(image);
         return 0;
     }else{/* Proceso padre */
         free(image->image);
@@ -151,10 +150,10 @@ int main(int argc,char **argv){
             printf("Saliendo...\n");status=0;break;}
         if(strcmp(args[0],"help")==0){
             printAyuda();
-        }if(args_count>=4){
+        }else if(args_count>=4){
             printf("Se excedió el número de argumentos permitidos (3), intente otra vez\n");
         }else{
-            char* salida;
+            char* salida = NULL;
 
             int filtro = 2; //Aplica blur por defecto (1-> sobel, 2-> blur, 3-> sharpen, 4-> identity)
 
@@ -184,7 +183,7 @@ int main(int argc,char **argv){
             PGMImage* pgm_image = leer_imagen(parsePGMExtension(args[0]));
             if(pgm_image != NULL){
                 pgm_image->filtro_aplicar = filtro;
-                pgm_image->input = parsePGMExtension(obtenerFilename(args[0]));
+                pgm_image->input = obtenerFilename(parsePGMExtension(args[0]));
                 if(salida == NULL){
                     char new_filename[SIZE]="results/";strcat(new_filename,pgm_image->input);
                     salida = parsePGMExtension(new_filename);
@@ -193,6 +192,7 @@ int main(int argc,char **argv){
                 status = procesar_imagen(pgm_image);
             }
         }
+        /* Liberación de recursos */
         free(args);
     }
     free(linea_consola);

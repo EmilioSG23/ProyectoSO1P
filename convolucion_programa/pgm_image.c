@@ -44,4 +44,5 @@ void unificar_bloques(struct BloqueImagen* bloques, int cantidad, byte* resultad
         for (int j = 0; j < height; j++) 
             memcpy(resultado + begin + j * width, bloques[i].result + j * width, sizeof(byte) * width);
     }
+    free(bloques);
 }
