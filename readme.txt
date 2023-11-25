@@ -1,4 +1,4 @@
-Para la compilación del programa ./convolucion, basta con ingresar el comando make en la terminal y el programa será compilado.
+Para la compilación del programa convolucion basta con ingresar el comando make en la terminal y el programa será compilado.
 
 Instrucciones:
 1. Ingresar a la terminal
@@ -7,16 +7,16 @@ Instrucciones:
 
 Uso del programa:
 Ingresando solo nombre y dirección de imagen a procesar: 
-	./convolucion <dirección/nombre_imagen> 
+	<dirección/nombre_imagen> 
 
 Ingresando el nombre y dirección de imagen a procesar junto al filtro que quiere utilizar: 
-	./convolucion <dirección/nombre_imagen> <filtro>
+	<dirección/nombre_imagen> <filtro>
 
 Ingresando nombre y dirección de imagen a procesar y archivo resultante: 
-	./convolucion <dirección/nombre_imagen> <dirección/nombre_resultado>
+	<dirección/nombre_imagen> <dirección/nombre_resultado>
 
 Ingresando nombre y dirección de imagen a procesar y archivo resultante junto al filtro que quiere utilizar: 
-	./convolucion <dirección/nombre_imagen> <dirección/nombre_resultado>  <filtro>
+	<dirección/nombre_imagen> <dirección/nombre_resultado>  <filtro>
 
 Filtros disponibles que puede ingresar mediante texto o mediante su respectivo número:
 1 -> sobel, 2 -> blur (por defecto), 3 -> sharpen, 4 -> identity
@@ -28,7 +28,7 @@ Dentro del directorio del programa, existen dos carpetas: images y results,
 
 Aquí presento unos ejemplos para realizar tests del programa (¡Importante!: Asegúrese que haya compilado el programa con make o que tenga el ejecutable):
 
-./convolucion images/tank.pgm 1
-./convolucion images/barbara.pgm results/resultado.pgm sharpen
-./convolucion images/sandiego.pgm
-./convolucion images/lanna.pgm identity
+images/tank.pgm 1
+images/barbara.pgm results/resultado.pgm sharpen
+images/sandiego.pgm
+images/lanna.pgm identity
