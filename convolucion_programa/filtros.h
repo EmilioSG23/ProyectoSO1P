@@ -2,25 +2,7 @@
 #define FILTROS_H
 
 #include "pgm.h"
-
-/* Estructura que representa una PGMImage */
-typedef struct PGMImage{
-    char* input;
-    char* output;
-    byte* image;
-    int width;
-    int height;
-    int filtro_aplicar;
-}PGMImage;
-
-struct BloqueImagen{
-    PGMImage* image;
-    byte* result;
-    int width;
-    int height;
-    int begin;
-    int end;
-};
+#include "pgm_image.h"
 
 int verificar_filtro(char* filtro);
 
