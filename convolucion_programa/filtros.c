@@ -6,8 +6,8 @@
 #include "filtros.h"
 
 int verificar_filtro(char* filtro){
-    char* filtros[4] = {"sobel","blur","sharpen","identity"};
-    for(int i = 0; i < 4; i++){
+    char* filtros[3] = {"sobel","blur","sharpen"};
+    for(int i = 0; i < 3; i++){
         if((strcmp(filtro,filtros[i])==0)||atoi(filtro)==i+1)
             return i+1;
     }

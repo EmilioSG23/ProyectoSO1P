@@ -170,8 +170,7 @@ int main(int argc,char **argv){
                 if(temp != -1)
                     filtro = temp;
                 else{
-                    printf("Filtro ingresado no válido, intente de nuevo:\n");
-                    free(args);break;
+                    printf("Filtro ingresado no válido, se aplicará blur\n");
                 }
                 salida = parsePGMExtension(args[1]);
             }
