@@ -129,7 +129,7 @@ void printAyuda () {
     printf("\e[1mIngresando nombre y dirección de imagen a procesar y archivo resultante junto al filtro que quiere utilizar: \e[m\n");
     printf("\t<dirección/nombre_imagen> <dirección/nombre_resultado>  <filtro>\n\n");
     printf("\e[1mFiltros disponibles que puede ingresar mediante texto o mediante su respectivo número:\e[m\n");
-    printf("1 -> sobel, 2 -> blur, 3 -> sharpen, 4 -> identity\n");
+    printf("1 -> sobel, 2 -> blur, 3 -> sharpen\n");
     printf("Ahora, ingrese su comando:\n");
 }
 

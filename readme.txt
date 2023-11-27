@@ -1,7 +1,13 @@
 Para la compilación del programa convolucion basta con ingresar el comando make en la terminal y el programa será compilado.
+Para eso, es necesario tener instalado el compliador gcc en su sistema operativo. Para comprobar si está instalado, use el comando:
+	gcc --version
+En caso de no reconocer la versión, siga los siguientes pasos para la instalación en Linux:
+1. Ingrese el siguiente comando: sudo apt update
+2. Ingrese el comando: sudo apt install build-essential
+3. Verificar la versión, confirmando así su instalación
 
-Instrucciones:
-1. Ingresar a la terminal
+Para la compilación del programa, haga lo siguiente:
+1. Ingresar a la terminal (consola)
 2. Ingresar al directorio del programa
 3. Ingresar el comando: make
 
