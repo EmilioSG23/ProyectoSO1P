@@ -19,7 +19,7 @@ Ingresando nombre y dirección de imagen a procesar y archivo resultante junto a
 	<dirección/nombre_imagen> <dirección/nombre_resultado>  <filtro>
 
 Filtros disponibles que puede ingresar mediante texto o mediante su respectivo número:
-1 -> sobel, 2 -> blur (por defecto), 3 -> sharpen, 4 -> identity
+1 -> sobel, 2 -> blur (por defecto), 3 -> sharpen
 
 Tests:
 Dentro del directorio del programa, existen dos carpetas: images y results,
